@@ -1,24 +1,31 @@
-import os 
-from PIL import image
+import os
+from PIL import Image
 
-# Open the images
-image1 = Image.open("images/images1/image1.jpg")
-image2 = Image.open("images/images2/image1.jpg")
+source_folder1 = 'logo/'
+source_folder2 = 'qrs/'
+target_folder = 'Image_Merged/'
 
-#Resize the images
-image1 = image1.resize((500, 350))
-image1_size = image1.size
-image2_size = image2.size
+n = len(os.listdir(source_folder1))
 
-# Create a new image
-new_image = Image.new('RGB', (2*image1_size[0], image1_size[1]), (250, 250, 250))
+dir = os.listdir(source_folder1)
+print(dir)
 
-# Paste the images
-new_image.paste(image1, (0, 0))
-new_image.paste(image2, (image1_size[0], 0))
+for img_no in range(1,n+1):
+    img1 = source_folder1+str(img_no)+".png"
+    img2 = source_folder2+str(img_no)+".png"
+    
+    images = [Image.open(x) for x in [img1, img2]]
+    widths, heights = zip(*(i.size for i in images))
 
-# Save the image
-new_image.save("images/merged/merged.jpg")
+    total_width = sum(widths)
+    max_height = max(heights)
 
-# Show the image
-new_image.show()
+    new_im = Image.new('RGB', (total_width, max_height))
+
+
+    x_offset = 0
+    for im in images:
+      new_im.paste(im, (x_offset,0))
+      x_offset += im.size[0]
+
+    new_im.save(target_folder+"/target_folder_"+str(img_no)+".png")
