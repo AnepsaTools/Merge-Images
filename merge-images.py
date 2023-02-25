@@ -28,4 +28,4 @@ for img_no in range(0,n+1):
       new_im.paste(im, (x_offset,13))
       x_offset += im.size[0]
 
-    new_im.save(target_folder+"/target_folder_"+str(img_no)+".png")
+    new_im.save(target_folder+"00"+str(img_no)+ "-A" +".png")
